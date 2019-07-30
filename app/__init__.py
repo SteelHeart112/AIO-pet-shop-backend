@@ -26,8 +26,8 @@ db.init_app(app)
 login_manager.init_app(app)
 migrate = Migrate(app, db, compare_type=True)
 
-
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+# create db
 
 
 @app.route("/logout", methods=['GET', 'OPTIONS'])
