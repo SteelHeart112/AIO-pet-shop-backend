@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 db = SQLAlchemy()
 
 
-class User (UserMixin, db.Model):
+class Users (UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), unique=False)
     password = db.Column(db.String(255), unique=False)
@@ -39,8 +39,8 @@ class Product (db.Model):
     # count_rate = db.Column(db.Integer, nullable=False, default=0)
     # avg_rating = db.Column(db.Float, nullable=False, default=0)
 
-    seller_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
-    user = db.relationship('User', backref=db.backref("from_Product_to_User"))
+    seller_id = db.Column(db.Integer, db.ForeignKey(Users.id), nullable=False)
+    user = db.relationship('Users', backref=db.backref("from_Product_to_Users"))
     # rating = db.relationship('Rating_Product', backref=db.backref("from_Product_to_Rating_Product"))
     # comment = db.relationship('Comment_Product', backref=db.backref("from_Product_to_Comment_Product"))
 
@@ -80,15 +80,15 @@ class Product (db.Model):
 
 class OAuth(OAuthConsumerMixin, db.Model):
     provider_user_id = db.Column(db.String(256), unique=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
-    user = db.relationship('User', backref=db.backref("from_OAuth_to_Order"))
+    user_id = db.Column(db.Integer, db.ForeignKey(Users.id), nullable=False)
+    user = db.relationship('Users', backref=db.backref("from_OAuth_to_Users"))
 
 
 class Token(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     uuid = db.Column(db.String, unique=True)
-    user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
-    user = db.relationship('User', backref=db.backref("from_Token_to_Order"))
+    user_id = db.Column(db.Integer, db.ForeignKey(Users.id), nullable=False)
+    user = db.relationship('Users', backref=db.backref("from_Token_to_Users"))
 
 
 # setup login manager
@@ -98,7 +98,7 @@ login_manager = LoginManager()
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return Users.query.get(int(user_id))
 
 @login_manager.request_loader
 def load_user_from_request(request):

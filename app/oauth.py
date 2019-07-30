@@ -4,7 +4,7 @@ from flask_dance.contrib.facebook import make_facebook_blueprint
 from flask_dance.consumer import oauth_authorized, oauth_error
 from flask_dance.consumer.storage.sqla import SQLAlchemyStorage
 from sqlalchemy.orm.exc import NoResultFound
-from .models import db, User, OAuth, Token
+from .models import db, Users, OAuth, Token
 import uuid
 
 
@@ -44,7 +44,7 @@ def facebook_logged_in(blueprint, token):
 
     else:
         # Create a new local user account for this user
-        user = User(name=info["name"], email=info['email'])
+        user = Users(name=info["name"], email=info['email'])
         # Associate the new local user account with the OAuth token
         oauth.user = user
         # Save and commit our database models

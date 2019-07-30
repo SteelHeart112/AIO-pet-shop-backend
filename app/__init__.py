@@ -2,7 +2,7 @@ import os
 from flask import Flask, redirect, url_for, flash, render_template, jsonify, request
 from flask_login import login_required, logout_user, current_user, login_user
 from .config import Config
-from .models import db, login_manager, User, Product, Rating_Product, Comment_Product, Order, OAuth, Token
+from .models import db, login_manager, Users, Product, OAuth, Token
 from .oauth import blueprint
 from .cli import create_db
 from flask_migrate import Migrate
@@ -47,7 +47,7 @@ def logout():
             'success': True
         })
     token = Token.query.filter_by(user_id=current_user.id).first()
-    print("=========================================KHOA", token)
+    print("token here", token)
     db.session.delete(token)
     db.session.commit()
     return jsonify({
@@ -120,7 +120,7 @@ def register():
     form = RegistrationForm.from_json(request.json)
 
     if form.validate():
-        new_user = User(name=form.name.data,
+        new_user = Users(name=form.name.data,
                         email=form.email.data
                         )
         new_user.set_password(form.password.data)
@@ -134,8 +134,8 @@ def register():
 @app.route('/login', methods=['post', 'get'])
 def login():
     form = LoginForm.from_json(request.json)
-    print('=============================', form.email.data)
-    log_user = User.query.filter_by(email=form.email.data).first()
+    print('dataaaataaa', form.email.data)
+    log_user = Users.query.filter_by(email=form.email.data).first()
     if log_user is None:
         return ({"status": "fail", "message": "There is no existing email"})
     if not log_user.check_password(form.password.data):
@@ -178,7 +178,7 @@ def create_post():
 @app.route("/profile", methods = ['post', 'get'])
 @login_required
 def get_profile():
-    user = User.query.filter_by(id=current_user.id).first()
+    user = Users.query.filter_by(id=current_user.id).first()
     data = {
         'name':user.name,
         'address':user.address,
@@ -194,7 +194,7 @@ def get_profile():
 @login_required
 def editprofile () :
     data = request.get_json()
-    user = User.query.filter_by(id=current_user.id).first()
+    user = Users.query.filter_by(id=current_user.id).first()
     user.name = data['name']
     user.date_of_birth = data['date_of_birth']
     user.address = data['address']

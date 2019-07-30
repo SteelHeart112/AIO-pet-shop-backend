@@ -1,6 +1,6 @@
 from wtforms import StringField, PasswordField, SubmitField, ValidationError, TextField, TextAreaField, DateField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, InputRequired
-from app.models import User
+from app.models import Users
 from flask_wtf import FlaskForm
 
 
@@ -13,7 +13,7 @@ class RegistrationForm (FlaskForm):
     pass_confirm = PasswordField("Confirm password", validators=[DataRequired()])
 
     def validate_email(self, field):
-        if User.query.filter_by(email=field.data).first():
+        if Users.query.filter_by(email=field.data).first():
             raise ValidationError("Your email has been registered!!")
 
 
