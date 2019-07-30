@@ -26,18 +26,8 @@ db.init_app(app)
 login_manager.init_app(app)
 migrate = Migrate(app, db, compare_type=True)
 
-POSTGRES = {
-    'user': 'steelheart',
-    'pw': '112204',
-    'db': 'finalproject',
-    'host': 'localhost',
-    'port': '5432',
-}
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:%(pw)s@%(host)s:\
-  %(port)s/%(db)s' % POSTGRES
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# create db
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
 
 @app.route("/logout", methods=['GET', 'OPTIONS'])
