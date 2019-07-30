@@ -76,8 +76,6 @@ def single_products(product_id):
             'imageUrl': data.imageUrl,
             'pet_size': data.pet_size,
             'description': data.description,
-            'count_rate': data.count_rate,
-            'avg_rating': data.avg_rating,
             'seller_id': data.seller_id
     }   
         return jsonify(product_details)
@@ -96,8 +94,6 @@ def single_category(product_category):
             'imageUrl': product.imageUrl,
             'pet_size': product.pet_size,
             'description': product.description,
-            'count_rate': product.count_rate,
-            'avg_rating': product.avg_rating,
             'seller_id': product.seller_id
         }
         list_products_category.append(products)
