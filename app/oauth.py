@@ -63,7 +63,7 @@ def facebook_logged_in(blueprint, token):
         token = Token(user_id=current_user.id, uuid=str(uuid.uuid4().hex))    
         db.session.add(token)
         db.session.commit()
-    return redirect("http://localhost:3000/?access_token={}".format(token.uuid))
+    return redirect("https://aio-pet-shop.netlify.com/?access_token={}".format(token.uuid))
 
 # notify on OAuth provider error
 @oauth_error.connect_via(blueprint)
