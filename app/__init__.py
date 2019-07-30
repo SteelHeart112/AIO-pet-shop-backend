@@ -117,8 +117,6 @@ def get_products():
             'imageUrl': product.imageUrl,
             'pet_size': product.pet_size,
             'description': product.description,
-            'count_rate': product.count_rate,
-            'avg_rating': product.avg_rating,
             'seller_id': product.seller_id
         }
         list_products.append(products)
