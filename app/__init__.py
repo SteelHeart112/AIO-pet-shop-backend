@@ -45,6 +45,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 # create db
 
 
+@app.route("/")
+def index():
+    return render_template("home.html")
+
+
 @app.route("/logout", methods=['GET', 'OPTIONS'])
 def logout():
     if current_user.is_anonymous:
