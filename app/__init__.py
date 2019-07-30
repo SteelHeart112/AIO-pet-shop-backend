@@ -26,6 +26,21 @@ db.init_app(app)
 login_manager.init_app(app)
 migrate = Migrate(app, db, compare_type=True)
 
+if 'DATABASE_URL' not in os.environ:
+    POSTGRES = {
+        'user': os.environ['POSTGRES_USER'],
+        'pw': os.environ['POSTGRES_PWD'],
+        'db': os.environ['POSTGRES_DB'],
+        'host': os.environ['POSTGRES_HOST'],
+        'port': os.environ['POSTGRES_PORT'],
+    }    
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:%(pw)s@%(host)s:\
+%(port)s/%(db)s' % POSTGRES
+# local
+os.environ['DATABASE_URL'] = app.config['SQLALCHEMY_DATABASE_URI']
+
+
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 # create db
 
